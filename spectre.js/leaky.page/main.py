@@ -22,15 +22,14 @@ import os
 app = Flask(__name__)
 
 frame_origin = 'http://127.0.0.1:8080'
-gae_application_var = os.getenv('GAE_APPLICATION')
-if gae_application_var:
+if gae_application_var := os.getenv('GAE_APPLICATION'):
     gae_application = gae_application_var.split('~')[1]
-    frame_origin = 'https://victim-dot-{}.appspot.com'.format(gae_application)
+    frame_origin = f'https://victim-dot-{gae_application}.appspot.com'
 
 def get_arg(name):
     val = request.args.get(name, '')
     if val == '':
-        raise 'missing required arg ' + name
+        raise f'missing required arg {name}'
     return val
 
 @app.route('/favicon.ico')
